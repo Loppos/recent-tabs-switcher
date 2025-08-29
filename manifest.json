@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Recent Tab Switcher",
+  "description": "Switch tabs like in Firefox, except with another key combination",
+  "version": "1.0",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "switch-next": {
+      "suggested_key": {
+        "default": "Alt+Q"
+      },
+      "description": "Switch to the next recent tab"
+    },
+    "switch-previous": {
+      "suggested_key": {
+        "default": "Alt+Shift+Q"
+      },
+      "description": "Switch to the previous recent tab"
+    }
+  }
+}
