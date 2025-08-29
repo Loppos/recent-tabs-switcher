@@ -1,36 +1,37 @@
 # DIY - Recent Tab Switcher
 
 A simple Chromium extension for quickly switching between recently used tabs, similar to Firefox's MRU tab switching.  
-This version works without any overlay and does not show extra UI elements.
+This version works without overlays or extra UI elements.
 
 ---
 
 ## Features
 
-- Switch between the most recently used tabs in the current window.
+- Switch between the most recently used tabs in your current window.
 - Keyboard shortcuts:
-  - **Alt+Q** → Next most recently used tab
-  - **Alt+Shift+Q** → Previous most recently used tab
-  - Customizable in `chrome://extensions/shortcuts`
+  - **Alt+Q** → Next recently used tab
+  - **Alt+Shift+Q** → Previous recently used tab
+  - Configurable in `chrome://extensions/shortcuts`
 - MRU logic limited to the last 6 tabs.
-- MRU list persists until the browser is closed (via `chrome.storage.session`).
 - Fully privacy-friendly; no external communication or tracking.
+- Persistent MRU: remembers recently used tabs until the browser is closed.
+- Automatically cleans MRU of closed tabs to prevent errors.
 
 ---
 
 ## Developer Installation (Chromium / Edge / Brave)
 
 1. Download or clone this repository.
-2. Extract the files into a single folder:
+2. Ensure all files are in a single folder:
    - `manifest.json`
    - `background.js`
    - `content.js`
    - Optional: `options.html` and `options.js`
-3. Open your browser and navigate to:
+3. Open your browser and go to:
    - Brave: `brave://extensions/`
    - Chrome: `chrome://extensions/`
    - Edge: `edge://extensions/`
-4. Enable **Developer Mode** (top-right corner).
+4. Enable **Developer Mode** (top-right).
 5. Click **Load unpacked**.
 6. Select the folder containing the extension.
 7. The extension is now active and ready to use.
@@ -41,28 +42,34 @@ This version works without any overlay and does not show extra UI elements.
 
 1. Open `chrome://extensions/` or `edge://extensions/`.
 2. Click **Pack extension**.
-3. Choose the folder of the extension.
-4. Optional: add a private key to keep updates consistent, otherwise a new `.crx` will be generated.
-5. You will get a `.crx` file that can be shared or installed.
+3. Choose the extension folder.
+4. Optionally add a private key to maintain updates; otherwise, a new `.crx` is created.
+5. You will receive a `.crx` file that can be shared or installed.
 
-⚠️ **Note**: In modern browsers (like Chrome and Brave), standalone `.crx` files often **do not work** anymore.  
-The safest and most reliable method is using **Load unpacked**.  
-`.crx` files may only be installed via enterprise policies or through the official web store.
+> ⚠️ Note: Modern Chromium-based browsers often restrict `.crx` installation outside the store. Using **Load unpacked** in Developer Mode is usually the easiest method.
 
 ---
 
 ## Notes
 
-- The extension only works in Chromium-based browsers (Chrome, Edge, Brave, Opera).
-- The MRU list is tracked only within the current window.
-- The MRU persists as long as the browser is open; it is cleared when the browser is fully closed.
-- No overlay or ribbon is shown; functionality is purely via keyboard shortcuts.
+- Works only in Chromium-based browsers (Chrome, Edge, Brave, Opera).
+- MRU is tracked per window.
+- No overlay or ribbon is shown; the functionality is purely via keyboard shortcuts.
+- Closed tabs are automatically removed from MRU to prevent errors.
+- MRU persists until the browser is closed.
 
 ---
 
-### Example usage
+## Example Usage
 
 1. Open multiple tabs.
 2. Press **Alt+Q** to switch to the last used tab.
 3. Press **Alt+Shift+Q** to go back.
-4. The MRU list automatically keeps track of the last 6 tabs and remains active until the browser is closed.
+4. MRU automatically keeps track of the last 6 tabs and skips closed tabs.
+
+---
+
+## Troubleshooting
+
+- If you see "No tab with id" errors, make sure you have the latest `background.js` which automatically cleans MRU of closed tabs.
+- Persistent MRU requires a modern Chromium browser that supports `chrome.storage.session`.

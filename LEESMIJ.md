@@ -13,15 +13,16 @@ Deze versie werkt zonder overlay en toont geen extra UI-elementen.
   - **Alt+Shift+Q** → Vorige recent gebruikte tab
   - Aanpasbaar in `chrome://extensions/shortcuts`
 - MRU-logica beperkt tot de laatste 6 tabbladen.
-- MRU-lijst blijft behouden tot de browser wordt afgesloten (persistent via `chrome.storage.session`).
 - Volledig privacyvriendelijk; geen externe communicatie of tracking.
+- Persistent MRU: onthoudt recent gebruikte tabbladen totdat de browser wordt afgesloten.
+- Sluit automatisch tabbladen uit die al gesloten zijn om fouten te voorkomen.
 
 ---
 
 ## Installatie voor ontwikkelaars (Chromium / Edge / Brave)
 
 1. Download of clone deze repository.
-2. Pak de bestanden uit of zorg dat ze in één map staan:
+2. Zorg dat alle bestanden in één map staan:
    - `manifest.json`
    - `background.js`
    - `content.js`
@@ -45,24 +46,30 @@ Deze versie werkt zonder overlay en toont geen extra UI-elementen.
 4. Optioneel: voeg een private key toe om updates te behouden, anders wordt een nieuwe `.crx` gemaakt.
 5. Je ontvangt een `.crx` bestand dat je kunt delen of installeren.
 
-⚠️ **Let op**: in moderne browsers (zoals Chrome en Brave) werken losse `.crx` bestanden vaak **niet meer** rechtstreeks.  
-De veiligste en meest betrouwbare manier is de **Load unpacked** methode.  
-Een `.crx` kan soms alleen nog geïnstalleerd worden via een enterprise-policy of via de officiële webstore.
+> ⚠️ Let op: Moderne Chromium-browsers beperken vaak installatie van `.crx` buiten de store. **Load unpacked** in Developer Mode is meestal de eenvoudigste methode.
 
 ---
 
 ## Opmerkingen
 
-- De extensie werkt alleen in Chromium-gebaseerde browsers (Chrome, Edge, Brave, Opera).
-- De MRU-lijst wordt alleen bijgehouden binnen het huidige venster.
-- MRU blijft bewaard zolang de browser openstaat; bij volledig afsluiten wordt de lijst gewist.
-- Er wordt geen overlay of lint getoond; het is puur functioneel via sneltoetsen.
+- Werkt alleen in Chromium-gebaseerde browsers (Chrome, Edge, Brave, Opera).
+- MRU-lijst wordt per venster bijgehouden.
+- Er wordt geen overlay of lint getoond; de functionaliteit is puur via sneltoetsen.
+- Gesloten tabbladen worden automatisch uit MRU verwijderd om fouten te voorkomen.
+- MRU blijft actief totdat de browser wordt afgesloten.
 
 ---
 
-### Voorbeeld gebruik
+## Voorbeeld gebruik
 
 1. Open meerdere tabbladen.
 2. Druk **Alt+Q** om naar de laatst gebruikte tab te wisselen.
 3. Druk **Alt+Shift+Q** om terug te gaan.
-4. De MRU-lijst houdt automatisch de laatste 6 tabbladen bij en blijft actief tot je de browser afsluit.
+4. MRU houdt automatisch de laatste 6 tabbladen bij en slaat gesloten tabbladen over.
+
+---
+
+## Probleemoplossing
+
+- Als je "No tab with id" fouten ziet, gebruik dan de nieuwste `background.js` die automatisch gesloten tabbladen uit MRU verwijdert.
+- Persistent MRU vereist een moderne Chromium-browser die `chrome.storage.session` ondersteunt.
