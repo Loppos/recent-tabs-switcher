@@ -1,62 +1,68 @@
 # DIY - Recent Tab Switcher
 
-Een eenvoudige Chromium-extensie voor het snel wisselen tussen recent gebruikte tabbladen, vergelijkbaar met Firefox's MRU-tab-switching.  
-Deze versie werkt zonder overlay en toont geen extra UI-elementen.
+A simple Chromium extension for quickly switching between recently used tabs, similar to Firefox's MRU tab switching.  
+This version works without any overlay and does not show extra UI elements.
 
 ---
 
-## Functies
+## Features
 
-- Wissel tussen de meest recent gebruikte tabbladen in je huidige venster.
-- Sneltoetsen:
-  - **Alt+Q** → Volgende recent gebruikte tab
-  - **Alt+Shift+Q** → Vorige recent gebruikte tab
-  - Aanpasbaar in `chrome://extensions/shortcuts`
-- MRU-logica beperkt tot de laatste 6 tabbladen.
-- Volledig privacyvriendelijk; geen externe communicatie of tracking.
+- Switch between the most recently used tabs in the current window.
+- Keyboard shortcuts:
+  - **Alt+Q** → Next most recently used tab
+  - **Alt+Shift+Q** → Previous most recently used tab
+  - Customizable in `chrome://extensions/shortcuts`
+- MRU logic limited to the last 6 tabs.
+- MRU list persists until the browser is closed (via `chrome.storage.session`).
+- Fully privacy-friendly; no external communication or tracking.
 
 ---
 
-## Installatie voor ontwikkelaars (Chromium / Edge / Brave)
+## Developer Installation (Chromium / Edge / Brave)
 
-1. Download of clone deze repository.
-2. Pak de bestanden uit of zorg dat ze in één map staan:
+1. Download or clone this repository.
+2. Extract the files into a single folder:
    - `manifest.json`
    - `background.js`
    - `content.js`
-   - Optioneel: `options.html` en `options.js`
-3. Open je browser en ga naar:
+   - Optional: `options.html` and `options.js`
+3. Open your browser and navigate to:
    - Brave: `brave://extensions/`
    - Chrome: `chrome://extensions/`
    - Edge: `edge://extensions/`
-4. Zet **Developer Mode** aan (rechtsboven).
-5. Klik op **Load unpacked**.
-6. Selecteer de map waarin de extensie staat.
-7. Extensie is nu actief en klaar voor gebruik.
+4. Enable **Developer Mode** (top-right corner).
+5. Click **Load unpacked**.
+6. Select the folder containing the extension.
+7. The extension is now active and ready to use.
 
 ---
 
-## Build als `.crx` bestand (optioneel)
+## Build as `.crx` file (optional)
 
-1. Open `chrome://extensions/` of `edge://extensions/`.
-2. Klik op **Pack extension**.
-3. Kies de map van de extensie.
-4. Optioneel: voeg een private key toe om updates te behouden, anders wordt een nieuwe `.crx` gemaakt.
-5. Je ontvangt een `.crx` bestand dat je kunt delen of installeren.
+1. Open `chrome://extensions/` or `edge://extensions/`.
+2. Click **Pack extension**.
+3. Choose the folder of the extension.
+4. Optional: add a private key to keep updates consistent, otherwise a new `.crx` will be generated.
+5. You will get a `.crx` file that can be shared or installed.
 
----
-
-## Opmerkingen
-
-- De extensie werkt alleen in Chromium-gebaseerde browsers (Chrome, Edge, Brave, Opera).
-- De MRU-lijst wordt alleen bijgehouden binnen het huidige venster.
-- Er wordt geen overlay of lint getoond; het is puur functioneel via sneltoetsen.
+⚠️ **Note**: In modern browsers (like Chrome and Brave), standalone `.crx` files often **do not work** anymore.  
+The safest and most reliable method is using **Load unpacked**.  
+`.crx` files may only be installed via enterprise policies or through the official web store.
 
 ---
 
-### Voorbeeld gebruik
+## Notes
 
-1. Open meerdere tabbladen.
-2. Druk **Alt+Q** om naar de laatst gebruikte tab te wisselen.
-3. Druk **Alt+Shift+Q** om terug te gaan.
-4. De MRU-lijst houdt automatisch de laatste 6 tabbladen bij.
+- The extension only works in Chromium-based browsers (Chrome, Edge, Brave, Opera).
+- The MRU list is tracked only within the current window.
+- The MRU persists as long as the browser is open; it is cleared when the browser is fully closed.
+- No overlay or ribbon is shown; functionality is purely via keyboard shortcuts.
+
+---
+
+### Example usage
+
+1. Open multiple tabs.
+2. Press **Alt+Q** to switch to the last used tab.
+3. Press **Alt+Shift+Q** to go back.
+4. The MRU list automatically keeps track of the last 6 tabs and remains active until the browser is closed.
