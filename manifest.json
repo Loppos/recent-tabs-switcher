@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Recent Tab Switcher",
-  "description": "Switch tabs like in Firefox, except with another key combination",
-  "version": "1.0",
+  "description": "Switch tabs like in Firefox. Use Alt+Q to go next, Alt+Shift+Q to go previous. You can always adjust this in: chrome://extensions/shortcuts , edge://extensions/shortcuts , ...",
+  "version": "2.0",
   "permissions": [
     "tabs",
     "activeTab",
@@ -24,5 +24,9 @@
       },
       "description": "Switch to the previous recent tab"
     }
+  },
+    "action": {
+      "default_popup": "popup.html",
+      "default_title": "Recent Tab Switcher" 
   }
 }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Recent Tab Switcher</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 15px;
+      width: 220px;
+      background-color: #f0f4f8;
+      color: #333;
+    }
+
+    h3 {
+      margin-top: 0;
+      color: #1e3a8a;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    input[type=range] {
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    #valueDisplay {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 5px;
+      color: #1e40af;
+    }
+
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      background-color: #1e40af;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #1e3a8a;
+    }
+  </style>
+</head>
+<body>
+  <h3>Recent Tab Switcher</h3>
+  
+  <label>
+    Max Recent Tabs:
+    <input id="maxTabsSlider" type="range" min="3" max="10">
+  </label>
+  <div id="valueDisplay">6</div>
+  <div id="savedMsg" style="text-align:center; color:green; font-weight:bold; display:none; margin-top:5px;">Saved!</div>
+
+  <button id="saveBtn">Save</button>
+
+  <script src="popup.js"></script>
+</body>
+</html>

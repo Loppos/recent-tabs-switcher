@@ -1,24 +1,25 @@
-const MAX_TABS = 6;
+let MAX_TABS = 6;               // default max MRU tabs
 let recentTabs = [];
 let historyIndex = -1;
 let isSwitching = false;
 let altStartTabId = null;
 let lastSwitchTime = 0;
-const MRU_DELAY = 369; // ms
+const MRU_DELAY = 369;          // ms
 
-// --- MRU persistence in session storage ---
+// --- Persist MRU in session storage ---
 function saveMRU() {
     chrome.storage.session.set({ recentTabs });
 }
 
+// Restore MRU on startup
 chrome.storage.session.get(["recentTabs"], data => {
     if (data.recentTabs) {
         recentTabs = data.recentTabs;
-        console.log("[RTS] MRU restored – recentTabs:", recentTabs.join(","));
+        console.log("[RTS] MRU restored:", recentTabs.join(","));
     }
 });
 
-// --- Helper: clean MRU from closed tabs ---
+// --- Clean MRU from closed tabs ---
 function cleanMRU(callback) {
     chrome.tabs.query({}, tabs => {
         const existingTabIds = new Set(tabs.map(t => t.id));
@@ -30,13 +31,15 @@ function cleanMRU(callback) {
 // --- Update MRU on tab activation ---
 chrome.tabs.onActivated.addListener(activeInfo => {
     const tabId = activeInfo.tabId;
+
     if (!isSwitching) {
-        if (!altStartTabId) recentTabs = recentTabs.filter(id => id !== tabId);
+        if (!altStartTabId) recentTabs = recentTabs.filter(id => id !== tabId);  // remove duplicates
         recentTabs.unshift(tabId);
-        if (recentTabs.length > MAX_TABS) recentTabs.pop();
+        recentTabs = [...new Set(recentTabs)];                                  // ensure unique
+        if (recentTabs.length > MAX_TABS) recentTabs = recentTabs.slice(0, MAX_TABS); // trim
         historyIndex = -1;
         saveMRU();
-        console.log("[RTS] MRU updated – recentTabs:", recentTabs.join(","));
+        console.log("[RTS] MRU updated:", recentTabs.join(","));
     }
 });
 
@@ -63,11 +66,11 @@ function finalizeMRU(currentTabId) {
         altStartTabId = null;
         historyIndex = -1;
         saveMRU();
-        console.log("[RTS] MRU finalized – recentTabs:", recentTabs.join(","));
+        console.log("[RTS] MRU finalized:", recentTabs.join(","));
     });
 }
 
-// --- Tab switch commands ---
+// --- Handle tab switch commands ---
 chrome.commands.onCommand.addListener(command => {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         if (!tabs.length) return;
@@ -99,4 +102,17 @@ chrome.commands.onCommand.addListener(command => {
             });
         });
     });
+});
+
+// --- Listen for MAX_TABS changes from popup ---
+chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === "sync" && changes.maxTabs) {
+        MAX_TABS = changes.maxTabs.newValue;
+        console.log("[RTS] MAX_TABS updated to", MAX_TABS);
+
+        // Trim MRU retroactively
+        recentTabs = [...new Set(recentTabs)].slice(0, MAX_TABS);
+        saveMRU();
+        console.log("[RTS] MRU trimmed:", recentTabs.join(","));
+    }
 });
